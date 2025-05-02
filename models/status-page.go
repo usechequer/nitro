@@ -10,7 +10,7 @@ import (
 
 type StatusPage struct {
 	ID          uint            `gorm:"primaryKey;not null" json:"-"`
-	Uuid        uuid.UUID       `gorm:"not null" json:"uuid"`
+	Uuid        uuid.UUID       `gorm:"index:status_pages_by_uuid;type:varchar(36);not null" json:"uuid"`
 	Title       string          `gorm:"type:varchar(191)" json:"title"`
 	Description string          `gorm:"type:text" json:"description"`
 	config      *datatypes.JSON `json:"config"`
