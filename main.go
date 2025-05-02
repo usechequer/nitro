@@ -4,6 +4,7 @@ import (
 	"log"
 	"nitro/models"
 	"nitro/utilities"
+	"nitro/validators"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/joho/godotenv"
@@ -23,6 +24,10 @@ func main() {
 
 	app := echo.New()
 	app.Validator = &utilities.RequestValidator{Validator: validator.New()}
+
+	projectGroup := app.Group("/projects")
+
+	projectGroup.POST("", validators.CreateProjectValidator)
 
 	app.Logger.Fatal(app.Start(":8000"))
 }
