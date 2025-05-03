@@ -8,3 +8,11 @@ type CreateProjectDto struct {
 	Url         string    `json:"url" validate:"required"`
 	Description string    `json:"description"`
 }
+
+type UpdateProjectDto struct {
+	Uuid                      uuid.UUID `json:"uuid" validate:"required"`
+	Name                      string    `json:"name" validate:"min=3"`
+	Description               string    `json:"description"`
+	Url                       string    `json:"url"`
+	Is_notifications_silenced uint      `json:"is_notifications_silenced"`
+}

@@ -19,9 +19,7 @@ func CreateProject(context echo.Context) error {
 	}
 
 	project := models.Project{UserUuid: createProjectDto.UserUuid, Name: createProjectDto.Name, Url: createProjectDto.Url, Description: descriptionPointer}
-
 	database := utilities.GetDatabaseObject()
-
 	result := database.Create(&project)
 
 	if result.Error != nil {
@@ -29,4 +27,11 @@ func CreateProject(context echo.Context) error {
 	}
 
 	return context.JSON(http.StatusCreated, project)
+}
+
+func UpdateProject(context echo.Context) error {
+	// project := context.Get("project").(*models.Project)
+	// updateProjectDto := context.Get("updateProjectDto").(*dto.UpdateProjectDto)
+
+	return context.JSON(123, map[string]string{})
 }

@@ -26,7 +26,6 @@ func main() {
 	app.Validator = &utilities.RequestValidator{Validator: validator.New()}
 
 	projectGroup := app.Group("/projects")
-
 	projectGroup.POST("", validators.CreateProjectValidator)
 
 	app.Logger.Fatal(app.Start(":8000"))
