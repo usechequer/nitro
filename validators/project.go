@@ -10,7 +10,7 @@ import (
 	"nitro/utilities"
 	"strings"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
@@ -58,6 +58,10 @@ func UpdateProjectValidator(context echo.Context) error {
 
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		return utilities.ThrowException(context, &utilities.Exception{StatusCode: http.StatusNotFound, Error: "PROJECT_002", Message: fmt.Sprintf("Project with uuid %s does not exist", updateProjectDto.Uuid)})
+	}
+
+	if len(updateProjectDto.Name) > 0 {
+		updateProjectDto.Name = strings.ToLower(updateProjectDto.Name)
 	}
 
 	context.Set("project", project)

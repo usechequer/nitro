@@ -1,6 +1,6 @@
 package utilities
 
-import "github.com/labstack/echo"
+import "github.com/labstack/echo/v4"
 
 type Exception struct {
 	StatusCode uint

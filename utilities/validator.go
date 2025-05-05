@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 type RequestValidator struct {
@@ -23,7 +23,7 @@ func GetErrorMessage(error validator.FieldError) string {
 	case "required":
 		return "This field is required."
 	case "min":
-		return "Minimum 8 characters is required."
+		return "Minimum 3 characters is required."
 	default:
 		return error.Error()
 	}

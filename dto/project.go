@@ -10,9 +10,9 @@ type CreateProjectDto struct {
 }
 
 type UpdateProjectDto struct {
-	Uuid                      uuid.UUID `json:"uuid" validate:"required"`
-	Name                      string    `json:"name" validate:"min=3"`
-	Description               string    `json:"description"`
-	Url                       string    `json:"url"`
-	Is_notifications_silenced uint      `json:"is_notifications_silenced"`
+	Uuid                      uuid.UUID `param:"uuid"`
+	Name                      string    `form:"name"`
+	Description               string    `form:"description"`
+	Url                       string    `form:"url"`
+	Is_notifications_silenced *uint     `form:"is_notifications_silenced"`
 }

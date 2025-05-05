@@ -8,7 +8,7 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"github.com/joho/godotenv"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 func main() {
@@ -27,6 +27,7 @@ func main() {
 
 	projectGroup := app.Group("/projects")
 	projectGroup.POST("", validators.CreateProjectValidator)
+	projectGroup.PUT("/:uuid", validators.UpdateProjectValidator)
 
 	app.Logger.Fatal(app.Start(":8000"))
 }
