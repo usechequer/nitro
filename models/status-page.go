@@ -11,12 +11,12 @@ import (
 type StatusPage struct {
 	ID          uint            `gorm:"primaryKey;not null" json:"-"`
 	Uuid        uuid.UUID       `gorm:"index:status_pages_by_uuid;type:varchar(36);not null" json:"uuid"`
+	ProjectID   uint            `gorm:"not null" json:"-"`
 	Title       string          `gorm:"type:varchar(191)" json:"title"`
 	Description string          `gorm:"type:text" json:"description"`
 	config      *datatypes.JSON `json:"config"`
 	CreatedAt   time.Time       `gorm:"not null" json:"-"`
 	UpdatedAt   time.Time       `gorm:"not null" json:"-"`
-	ProjectID   uint            `gorm:"not null" json:"-"`
 }
 
 func (statusPage *StatusPage) BeforeCreate(transaction *gorm.DB) (err error) {

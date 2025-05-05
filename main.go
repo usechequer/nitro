@@ -25,9 +25,10 @@ func main() {
 	app := echo.New()
 	app.Validator = &utilities.RequestValidator{Validator: validator.New()}
 
-	projectGroup := app.Group("/projects")
-	projectGroup.POST("", validators.CreateProjectValidator)
-	projectGroup.PUT("/:uuid", validators.UpdateProjectValidator)
+	app.POST("/projects", validators.CreateProjectValidator)
+	app.PUT("/projects/:uuid", validators.UpdateProjectValidator)
+
+	app.POST("/projects/:project_uuid/notification-configs", validators.ValidateCreateNotificationConfig)
 
 	app.Logger.Fatal(app.Start(":8000"))
 }
