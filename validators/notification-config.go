@@ -27,19 +27,19 @@ func ValidateCreateNotificationConfig(context echo.Context) error {
 	var project models.Project
 	database := utilities.GetDatabaseObject()
 
-	result := database.Where("uuid = ?", createNotificationConfigDto.ProjectUuid).First(&project)
+	projectResult := database.Where("uuid = ?", createNotificationConfigDto.ProjectUuid).First(&project)
 
-	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+	if errors.Is(projectResult.Error, gorm.ErrRecordNotFound) {
 		return utilities.ThrowException(context, &utilities.Exception{StatusCode: http.StatusNotFound, Error: "PROJECT_002", Message: fmt.Sprintf("Project with uuid %s does not exist", createNotificationConfigDto.ProjectUuid)})
 	}
 
-	// var notificationConfig models.NotificationConfig
+	var notificationConfig models.NotificationConfig
 
-	// result := database.Where("project_id = ?", project.ID).First(&notificationConfig)
+	notificationResult := database.Where("project_id = ?", project.ID).First(&notificationConfig)
 
-	// if !errors.Is(result.Error, gorm.ErrRecordNotFound) {
-
-	// }
+	if !errors.Is(notificationResult.Error, gorm.ErrRecordNotFound) {
+		return utilities.ThrowException(context, &utilities.Exception{StatusCode: http.StatusBadRequest, Error: "NOTIFICATION_CONFIG_001", Message: fmt.Sprintf("Project with uuid %s already has an existing notification config", createNotificationConfigDto.ProjectUuid)})
+	}
 
 	context.Set("createNotificationConfigDto", createNotificationConfigDto)
 	context.Set("project", project)
