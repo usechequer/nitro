@@ -13,8 +13,8 @@ import (
 	"gorm.io/gorm"
 )
 
-func ValidateCreateNotificationConfig(context echo.Context) error {
-	createNotificationConfigDto := new(dto.CreateNotificationConfig)
+func ValidateEditNotificationConfigDto(context echo.Context) error {
+	createNotificationConfigDto := new(dto.CreateNotificationConfigDto)
 
 	if err := context.Bind(createNotificationConfigDto); err != nil {
 		return utilities.ThrowException(context, &utilities.Exception{StatusCode: http.StatusBadRequest, Error: "MALFORMED_REQUEST", Message: err.Error()})
@@ -41,8 +41,34 @@ func ValidateCreateNotificationConfig(context echo.Context) error {
 		return utilities.ThrowException(context, &utilities.Exception{StatusCode: http.StatusBadRequest, Error: "NOTIFICATION_CONFIG_001", Message: fmt.Sprintf("Project with uuid %s already has an existing notification config", createNotificationConfigDto.ProjectUuid)})
 	}
 
-	context.Set("createNotificationConfigDto", createNotificationConfigDto)
+	context.Set("CreateNotificationConfigDto", createNotificationConfigDto)
 	context.Set("project", project)
 
 	return controllers.CreateNotificationConfig(context)
+}
+
+func ValidateUpdateNotificationConfig(context echo.Context) error {
+	updateNotificationConfigDto := new(dto.UpdateNotificationConfigDto)
+
+	if err := context.Bind(updateNotificationConfigDto); err != nil {
+		return utilities.ThrowException(context, &utilities.Exception{StatusCode: http.StatusBadRequest, Error: "MALFORMED_REQUEST", Message: err.Error()})
+	}
+
+	if err := context.Validate(updateNotificationConfigDto); err != nil {
+		return err
+	}
+
+	var notificationConfig models.NotificationConfig
+	database := utilities.GetDatabaseObject()
+
+	result := database.Where("uuid = ?", updateNotificationConfigDto.Uuid).First(&notificationConfig)
+
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		return utilities.ThrowException(context, &utilities.Exception{StatusCode: http.StatusNotFound, Error: "NOTIFICATION_CONFIG_002", Message: fmt.Sprintf("Notification Config with uuid %s does not exist", updateNotificationConfigDto.Uuid)})
+	}
+
+	context.Set("notificationConfig", notificationConfig)
+	context.Set("updateNotificationConfigDto", updateNotificationConfigDto)
+
+	return controllers.UpdateNotificationConfig(context)
 }

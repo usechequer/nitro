@@ -11,7 +11,7 @@ import (
 
 func CreateNotificationConfig(context echo.Context) error {
 	project := context.Get("project").(models.Project)
-	createNotificationConfigDto := context.Get("createNotificationConfigDto").(*dto.CreateNotificationConfig)
+	createNotificationConfigDto := context.Get("CreateNotificationConfigDto").(*dto.CreateNotificationConfigDto)
 
 	notificationConfig := models.NotificationConfig{Config: createNotificationConfigDto.Config, ProjectID: project.ID}
 
@@ -23,4 +23,9 @@ func CreateNotificationConfig(context echo.Context) error {
 	}
 
 	return context.JSON(http.StatusCreated, notificationConfig)
+}
+
+func UpdateNotificationConfig(context echo.Context) error {
+
+	return context.JSON(200, "")
 }
