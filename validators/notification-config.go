@@ -13,7 +13,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func ValidateEditNotificationConfigDto(context echo.Context) error {
+func ValidateCreateNotificationConfigDto(context echo.Context) error {
 	createNotificationConfigDto := new(dto.CreateNotificationConfigDto)
 
 	if err := context.Bind(createNotificationConfigDto); err != nil {
@@ -61,10 +61,14 @@ func ValidateUpdateNotificationConfig(context echo.Context) error {
 	var notificationConfig models.NotificationConfig
 	database := utilities.GetDatabaseObject()
 
-	result := database.Where("uuid = ?", updateNotificationConfigDto.Uuid).First(&notificationConfig)
+	result := database.Preload("Project").Where("uuid = ?", updateNotificationConfigDto.Uuid).First(&notificationConfig)
 
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		return utilities.ThrowException(context, &utilities.Exception{StatusCode: http.StatusNotFound, Error: "NOTIFICATION_CONFIG_002", Message: fmt.Sprintf("Notification Config with uuid %s does not exist", updateNotificationConfigDto.Uuid)})
+	}
+
+	if notificationConfig.Project.Uuid.String() != updateNotificationConfigDto.ProjectUuid.String() {
+		return utilities.ThrowException(context, &utilities.Exception{StatusCode: http.StatusNotFound, Error: "NOTIFICATION_CONFIG_003", Message: fmt.Sprintf("Notification Config with uuid %s is not tied to project with uuid %s", updateNotificationConfigDto.Uuid, updateNotificationConfigDto.ProjectUuid)})
 	}
 
 	context.Set("notificationConfig", notificationConfig)

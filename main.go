@@ -28,7 +28,8 @@ func main() {
 	app.POST("/projects", validators.CreateProjectValidator)
 	app.PUT("/projects/:uuid", validators.UpdateProjectValidator)
 
-	app.POST("/projects/:project_uuid/notification-configs", validators.ValidateEditNotificationConfigDto)
+	app.POST("/projects/:project_uuid/notification-configs", validators.ValidateCreateNotificationConfigDto)
+	app.PUT("/projects/:project_uuid/notification-configs/:uuid", validators.ValidateUpdateNotificationConfig)
 
 	app.Logger.Fatal(app.Start(":8000"))
 }

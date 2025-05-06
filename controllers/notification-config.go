@@ -26,6 +26,17 @@ func CreateNotificationConfig(context echo.Context) error {
 }
 
 func UpdateNotificationConfig(context echo.Context) error {
+	notificationConfig := context.Get("notificationConfig").(models.NotificationConfig)
+	updateNotificationConfigDto := context.Get("updateNotificationConfigDto").(*dto.UpdateNotificationConfigDto)
 
-	return context.JSON(200, "")
+	notificationConfig.Config = updateNotificationConfigDto.Config
+	database := utilities.GetDatabaseObject()
+
+	result := database.Save(&notificationConfig)
+
+	if result.Error != nil {
+		return utilities.ThrowException(context, &utilities.Exception{StatusCode: http.StatusInternalServerError, Error: "INTERNAL_SERVER_ERROR", Message: result.Error.Error()})
+	}
+
+	return context.JSON(200, notificationConfig)
 }

@@ -11,6 +11,7 @@ type CreateNotificationConfigDto struct {
 }
 
 type UpdateNotificationConfigDto struct {
-	Uuid   uuid.UUID      `param:"uuid"`
-	Config datatypes.JSON `json:"config"`
+	ProjectUuid uuid.UUID      `param:"project_uuid"`
+	Uuid        uuid.UUID      `param:"uuid"`
+	Config      datatypes.JSON `json:"config"`
 }
