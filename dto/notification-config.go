@@ -7,11 +7,11 @@ import (
 
 type CreateNotificationConfigDto struct {
 	ProjectUuid uuid.UUID      `param:"project_uuid"`
-	Config      datatypes.JSON `json:"config"`
+	Config      datatypes.JSON `json:"config" validate:"required"`
 }
 
 type UpdateNotificationConfigDto struct {
 	ProjectUuid uuid.UUID      `param:"project_uuid"`
 	Uuid        uuid.UUID      `param:"uuid"`
-	Config      datatypes.JSON `json:"config"`
+	Config      datatypes.JSON `json:"config" validate:"required"`
 }
