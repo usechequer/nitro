@@ -60,16 +60,14 @@ func ValidateUpdateStatusPage(context echo.Context) error {
 	var statusPage models.StatusPage
 	database := utilities.GetDatabaseObject()
 
-	result := database.Preload("project", func(db *gorm.DB) *gorm.DB {
-		return db.Select("uuid")
-	}).Where("uuid = ?", updateStatusPageDto.Uuid).First(&statusPage)
+	result := database.Preload("Project").Where("uuid = ?", updateStatusPageDto.Uuid).First(&statusPage)
 
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
-		return utilities.ThrowException(context, &utilities.Exception{StatusCode: http.StatusNotFound, Error: "NOTIFICATION_CONFIG_002", Message: fmt.Sprintf("Status page with uuid %s does not exist", updateStatusPageDto.Uuid)})
+		return utilities.ThrowException(context, &utilities.Exception{StatusCode: http.StatusNotFound, Error: "STATUS_PAGE_002", Message: fmt.Sprintf("Status page with uuid %s does not exist", updateStatusPageDto.Uuid)})
 	}
 
-	if statusPage.Uuid.String() != updateStatusPageDto.Uuid.String() {
-		return utilities.ThrowException(context, &utilities.Exception{StatusCode: http.StatusNotFound, Error: "NOTIFICATION_CONFIG_003", Message: fmt.Sprintf("Status page with uuid %s is not tied to project with uuid %s", updateStatusPageDto.Uuid, updateStatusPageDto.ProjectUuid)})
+	if statusPage.Project.Uuid.String() != updateStatusPageDto.ProjectUuid.String() {
+		return utilities.ThrowException(context, &utilities.Exception{StatusCode: http.StatusNotFound, Error: "STATUS_PAGE_003", Message: fmt.Sprintf("Status page with uuid %s is not tied to project with uuid %s", updateStatusPageDto.Uuid, updateStatusPageDto.ProjectUuid)})
 	}
 
 	context.Set("statusPage", statusPage)

@@ -14,7 +14,10 @@ type CreateStatusPageDto struct {
 }
 
 type UpdateStatusPageDto struct {
-	CreateStatusPageDto
-	Uuid   uuid.UUID       `param:"uuid"`
-	Config *datatypes.JSON `json:"config"`
+	ProjectUuid uuid.UUID       `param:"project_uuid"`
+	Uuid        uuid.UUID       `param:"uuid"`
+	Title       *string         `json:"title"`
+	Description *string         `json:"description"`
+	Metadata    *datatypes.JSON `json:"metadata"`
+	Config      *datatypes.JSON `json:"config"`
 }
