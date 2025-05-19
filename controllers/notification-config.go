@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"nitro/dto"
 	"nitro/models"
-	"nitro/utilities"
 
 	"github.com/labstack/echo/v4"
+	"github.com/usechequer/utilities"
 )
 
 func CreateNotificationConfig(context echo.Context) error {

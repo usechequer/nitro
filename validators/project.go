@@ -7,10 +7,10 @@ import (
 	"nitro/controllers"
 	"nitro/dto"
 	"nitro/models"
-	"nitro/utilities"
 	"strings"
 
 	"github.com/labstack/echo/v4"
+	"github.com/usechequer/utilities"
 	"gorm.io/gorm"
 )
 

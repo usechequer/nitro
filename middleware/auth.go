@@ -2,12 +2,12 @@ package middleware
 
 import (
 	"net/http"
-	"nitro/utilities"
 	"os"
 	"strings"
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
+	"github.com/usechequer/utilities"
 )
 
 func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
