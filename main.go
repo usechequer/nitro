@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"nitro/middleware"
 	"nitro/models"
 	"nitro/utilities"
 	"nitro/validators"
@@ -24,6 +25,7 @@ func main() {
 
 	app := echo.New()
 	app.Validator = &utilities.RequestValidator{Validator: validator.New()}
+	app.Use(middleware.AuthMiddleware)
 
 	app.POST("/projects", validators.CreateProjectValidator)
 	app.PUT("/projects/:uuid", validators.UpdateProjectValidator)
