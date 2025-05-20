@@ -4,12 +4,12 @@ import (
 	"log"
 	"nitro/middleware"
 	"nitro/models"
-	"nitro/utilities"
 	"nitro/validators"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"github.com/usechequer/utilities"
 )
 
 func main() {
@@ -25,7 +25,8 @@ func main() {
 
 	app := echo.New()
 	app.Validator = &utilities.RequestValidator{Validator: validator.New()}
-	app.Use(middleware.AuthMiddleware)
+	app.Use(utilities.AuthMiddleware)
+	app.Use(middleware.TokenMiddleware)
 
 	app.POST("/projects", validators.CreateProjectValidator)
 	app.PUT("/projects/:uuid", validators.UpdateProjectValidator)
