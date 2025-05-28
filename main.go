@@ -1,10 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"nitro/middleware"
 	"nitro/models"
 	"nitro/validators"
+	"os"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/joho/godotenv"
@@ -37,5 +39,5 @@ func main() {
 	app.POST("/projects/:project_uuid/status-pages", validators.ValidateCreateStatusPage)
 	app.PUT("/projects/:project_uuid/status-pages/:uuid", validators.ValidateUpdateStatusPage)
 
-	app.Logger.Fatal(app.Start(":8000"))
+	app.Logger.Fatal(app.Start(fmt.Sprintf(":%s", os.Getenv("APP_PORT"))))
 }
